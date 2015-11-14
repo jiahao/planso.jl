@@ -1,0 +1,4 @@
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+26.9u 0.3s 0:29 91% 0+532k 1+1io 2pf+0w

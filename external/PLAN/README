@@ -1,0 +1,69 @@
+This directory contains a release of parallel LANSO package for
+symmetric generalized eigenvalue problems.  To facilitate your use of
+this package, a number of examples are provided.  Please send your
+comments, questions and suggestions to the authors.
+
+Kesheng Wu <kwu@lbl.gov>
+Horst D. Simon <hdsimon@lbl.gov>
+
+A more detailed document about the package is available at
+<http://www.nersc.gov/~kewu/ps/planso.ps>
+
+			       **********
+
+LANSO implements the Lanczos method for symmetric generalized eigenvalue
+problems.  It is maintained by Professor Beresford Parlett of UC
+Berkeley and his students.  The current version uses the
+Omega-recurrence to simulate the loss of orthogonality among the Lanczos
+vectors and maintains semiorthogonality.  This is sufficient to
+guarantee the eigenvalues are computed accurately, but under extreme
+conditions the eigenvectors may not be as accurate as the eigenvalues.
+The program is implemented in Fortran 77.  They are located in 'lanso1'
+directory.
+
+The parallel version uses Single-Program-Multiple-Data (SPMD)
+programming paradigm.  All Lanczos vectors are conformally mapped onto
+all processors of a given MPI group.  Using this strategy, there is only
+a minimal amount of work to be done to transform the program into a
+parallel version.  In addition, many other parallel sparse linear
+algebra packages, such as P_SPARSLIB, AZTEC, BLOCKSOLVE, etc., assumes
+the same distribution of sparse matrices.  It should be fairly easy to
+interface our parallel LANSO (PLANSO) with other packages that provides
+parallel sparse matrix-vector multiplication and linear system solution.
+The parallel souce code is also in Fortran 77, it is located in the
+directory 'plan'.
+
+The parallel version uses MPI for communications. 
+
+The parallel LANSO (PLANSO) code is currently available on the web.  We
+have done extensive testing on the code at NERSC.  In most of the cases
+tested, PLANSO runs at the same efficiency as the parallel matrix-vector
+multiplication routine.  Since the Lanczos iterations are significantly
+cheaper than the Arnoldi iterations, PLANSO can be significantly faster
+than Arnoldi methods.
+
+A number of examples are provided in the directory 'examples'.  See
+README files in the subdirectories for more details.
+
+
+INSTALLATION:
+
+change Make.inc in the top level directory to set appropriate compiler
+and flags to use.
+
+Check the makefiles in the examples directory to make sure the packages
+used are referenced correctly.  Examples using Aztec and BlockSolve95
+call Fortran functions from C programs, they may require different
+libraries on different machines.  The directory examples/psp uses
+PSPARSLIB and dynamic memory allocation in Fortran.  If you can not
+compile dmem.F, you will need to change the makefile to use dmem.c to
+generate the file dmem.o.
+
+Libraries required:
+
+LAPACK, BLAS
+
+The following libraries might be used depending what example is used.
+
+PSPARSLIB, SPARSKIT, Aztec, BlockSolve95, SuperLU.
+

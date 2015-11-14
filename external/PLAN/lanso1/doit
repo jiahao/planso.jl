@@ -1,0 +1,50 @@
+#!/bin/csh -f
+unset fort FOR for
+(time ./hs < hs.5 > hs.6) >& hs.0
+if (-z hs.6) rm -f hs.6
+if (-e fort.11) then
+	mv fort.9 hs.9
+	mv fort.11 hs.11
+	set fort
+else if (-e FOR011.DAT) then
+	mv FOR009.DAT hs.9
+	mv FOR011.DAT hs.11
+	set FOR
+else if (-e for011.dat) then
+	mv for009.dat hs.9
+	mv for011.dat hs.11
+	set for
+endif
+(time ./diag < diag100.5 > diag100.6) >& diag100.0
+if (-z diag100.6) rm -f diag100.6
+if ($?fort) then
+	mv fort.11 diag100.11
+else if ($?FOR) then
+	mv FOR011.DAT diag100.11
+else if ($?for) then
+	mv for011.dat diag100.11
+endif
+(time ./std < std201.5 > std201.6) >& std201.0
+if (-z std201.6) rm -f std201.6
+if ($?fort) then
+	mv fort.11 std201.11
+	ln sni207.1 fort.1
+else if ($?FOR) then
+	mv FOR011.DAT std201.11
+	ln sni207.1 FOR001.DAT
+else if ($?for) then
+	mv for011.dat std201.11
+	ln sni207.1 for001.dat
+endif
+(time ./sni < sni207.5 > sni207.6) >& sni207.0
+if (-z sni207.6) rm -f sni207.6
+if ($?fort) then
+	rm -f fort.1
+	mv fort.11 sni207.11
+else if ($?FOR) then
+	rm -f FOR001.DAT
+	mv FOR011.DAT sni207.11
+else if ($?for) then
+	rm -f for001.dat
+	mv for011.dat sni207.11
+endif
